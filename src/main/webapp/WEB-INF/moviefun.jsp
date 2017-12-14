@@ -95,7 +95,7 @@
     </tr>
     </thead>
     <tbody>
-    <c:forEach items="${movies}" var="movie">
+    <c:forEach items="${requestScope.movies}" var="movie">
       <tr>
         <td><c:out value="${movie.title}"/></td>
         <td><c:out value="${movie.director}"/></td>
