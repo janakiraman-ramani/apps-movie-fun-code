@@ -18,6 +18,8 @@ import java.util.Optional;
 
 import static java.lang.String.format;
 import static org.springframework.http.MediaType.IMAGE_JPEG_VALUE;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Controller
 @RequestMapping("/albums")
@@ -26,6 +28,7 @@ public class AlbumsController {
     private final AlbumsBean albumsBean;
     private final BlobStore blobStore;
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     public AlbumsController(AlbumsBean albumsBean, BlobStore blobStore) {
         this.albumsBean = albumsBean;
         this.blobStore = blobStore;
@@ -46,14 +49,16 @@ public class AlbumsController {
 
     @PostMapping("/{albumId}/cover")
     public String uploadCover(@PathVariable Long albumId, @RequestParam("file") MultipartFile uploadedFile) {
-        System.out.println("Uploading cover for album with id " + albumId);
+        //System.out.println("Uploading cover for album with id " + albumId);
+        logger.debug("Uploading cover for album with id " + albumId);
 
         if (uploadedFile.getSize() > 0) {
             try {
                 tryToUploadCover(albumId, uploadedFile);
 
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.error("There was an error while uploading album cover",e);
+                //e.printStackTrace();
             }
         }
 

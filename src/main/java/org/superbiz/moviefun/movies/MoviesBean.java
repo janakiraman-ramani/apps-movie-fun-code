@@ -25,12 +25,16 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import javax.persistence.metamodel.EntityType;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Repository
 public class MoviesBean {
 
     @PersistenceContext
     private EntityManager entityManager;
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
 
     public Movie find(Long id) {
         return entityManager.find(Movie.class, id);
@@ -38,9 +42,7 @@ public class MoviesBean {
 
     @Transactional
     public void addMovie(Movie movie) {
-        System.err.println("Creating movie with title " + movie.getTitle() +
-            ", and year " + movie.getYear());
-
+        logger.error("Creating movie with title " + movie.getTitle() + ", and year " + movie.getYear());
         entityManager.persist(movie);
     }
 
